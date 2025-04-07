@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>SNATCHO</title>
+  <style>
+    .container { display: flex; flex-direction: column; align-items: center; }
+    .slider-container { display: flex; justify-content: space-between; width: 80%; margin-bottom: 20px; }
+    .slider-box { display: flex; flex-direction: column; align-items: center; width: 45%; }
+    .center-slider { width: 50%; text-align: center; }
+    input[type=range] { width: 80%; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="slider-container">
+      <div class="slider-box"><p>Left Side of BOT</p><input type="range" id="range_left" min="0" max="256" value="0"></div>
+      <div class="slider-box"><p>Right Side of BOT</p><input type="range" id="range_right" min="0" max="256" value="0"></div>
+    </div>
+    <div class="center-slider"><p>BOT Movement</p><input type="range" id="range_center" min="0" max="256" value="0"></div>
+    <div class="slider-container">
+      <div class="slider-box"><p>Arm Servo</p><input type="range" id="range_arm" min="0" max="180" value="0"></div>
+      <div class="slider-box"><p>Gripper Servo</p><input type="range" id="range_grip" min="0" max="180" value="0"></div>
+    </div>
+    <div class="center-slider"><p>Arm Movement</p><input type="range" id="range_stepper" min="0" max="360" value="0"></div>
+  </div>
+  <script>
+    ['left', 'right', 'center', 'arm', 'grip', 'stepper'].forEach(id => {
+      document.getElementById(`range_${id}`).oninput = function() {
+        fetch(`/${id}`, {method: 'POST', body: `${id}=${this.value}`});
+      };
+    });
+  </script>
+</body>
+</html>
